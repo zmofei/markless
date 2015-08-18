@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MarkLess demo</title>
+    <style type="text/css">
+    body {
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, STHeiti, 'Microsoft Yahei', sans-serif;
+    }
+
+    .showdom {
+        min-height: 18px;
+    }
+
+    #markless {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        bottom: 0;
+        width: 800px;
+        margin-left: -400px;
+        background: #f4f4f4;
+        padding: 10px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="markless"></div>
+    <script type="text/javascript" src="../dist/index.js"></script>
+    <script type="text/javascript">
+    new Markless('markless');
+    </script>
+</body>
+
+</html>
