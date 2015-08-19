@@ -8,6 +8,51 @@
         font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, STHeiti, 'Microsoft Yahei', sans-serif;
     }
 
+    .showdom:before {
+        position: relative;
+        left: -10px;
+        font-size: 10px;
+        color: #999;
+        content: 'text'
+    }
+
+    .h1::before,
+    .h2::before,
+    .h3::before,
+    .h4::before,
+    .h5::before,
+    .h6::before {
+        position: relative;
+        content: 'h1';
+        left: -10px;
+        font-size: 10px;
+        color: #999;
+    }
+
+    .h1:before {
+        content: 'h1'
+    }
+
+    .h2:before {
+        content: 'h2'
+    }
+
+    .h3:before {
+        content: 'h3'
+    }
+
+    .h4:before {
+        content: 'h4'
+    }
+
+    .h5:before {
+        content: 'h5'
+    }
+
+    .h6:before {
+        content: 'h6'
+    }
+
     .showdom {
         min-height: 18px;
     }

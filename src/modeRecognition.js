@@ -1,6 +1,6 @@
 var Mode = {
     judegeReg: {
-        '^(#{1,6}).+': 'h',
+        '^(#{1,6})[^#]+': 'h',
     },
     judege: function(val) {
         var reg = this.judegeReg;

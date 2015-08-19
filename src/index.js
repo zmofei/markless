@@ -55,23 +55,41 @@ Markless.prototype.initEvent = function() {
         val = val.replace(/\n/g, '<br>');
         val = val.replace(/\s/g, '&nbsp;');
         console.log(val)
-        self.activeDom.innerHTML = val;
 
         var modelRec = require('./modeRecognition.js');
 
-        // get  model
-        var modelRst = modelRec.judege(val);
-        if (modelRst && modelRst.ret == 'h') {
-            modelRst.ret += modelRst.hit[1].length;
+        if (!self.activeDom.dataset.type) {
+            // get  model
+            var modelRst = modelRec.judege(val);
+            if (modelRst && modelRst.ret == 'h') {
+                modelRst.ret += modelRst.hit[1].length;
+                val = val.replace(modelRst.hit[1], '');
+                self.activeDom.dataset.type = modelRec;
+                self.activeDom.dataset.symbol = modelRst.hit[1];
+            }
+            modelRec = modelRst ? modelRst.ret : '';
+            console.log(modelRst);
+            // get style by model
+            var styles = require('./modeStyle.js');
+            var style = styles(modelRec) + self.editBoxConf.baseStyle;
+
+            // add Style
+            self.activeDom.setAttribute('style', style);
+            self.activeDom.setAttribute('class', 'showdom ' + modelRec)
+        } else {
+            var reg = new RegExp('^' + self.activeDom.dataset.symbol);
+            if (reg.test(val)) {
+                val = val.replace(reg, '');
+            } else {
+                val = self.activeDom.dataset.symbol;
+                selfBox.value = val;
+                delete self.activeDom.dataset.type;
+                delete self.activeDom.dataset.symbol;
+                self.activeDom.setAttribute('class', 'showdom');
+                self.activeDom.setAttribute('style', self.editBoxConf.baseStyle);
+            }
         }
-        modelRec = modelRst ? modelRst.ret : '';
-
-        // get style by model
-        var styles = require('./modeStyle.js');
-        var style = styles(modelRec) + self.editBoxConf.baseStyle;
-
-        // add Style
-        self.activeDom.setAttribute('style', style);
+        self.activeDom.innerHTML = val;
         return false;
     })
 
