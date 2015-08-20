@@ -1,5 +1,7 @@
-var cursor = require('./cursor.js');
-var edit = require('./editDom.js');
+import cursor from './cursor.js';
+import edit from './editDom.js';
+import modelRec from './modeRecognition.js';
+import styles from './modeStyle.js';
 
 function Markless(id, opt) {
     this.editBoxConf = {
@@ -55,7 +57,7 @@ Markless.prototype.initEvent = function () {
         val = val.replace(/\s/g, '&nbsp;');
         console.log(val)
 
-        var modelRec = require('./modeRecognition.js');
+        // var modelRec = require('./modeRecognition.js');
         if (!self.activeDom.dataset.type || self.activeDom.dataset.type == 'text') {
             // get  model
             var modelRst = modelRec.judege(val);
@@ -68,15 +70,15 @@ Markless.prototype.initEvent = function () {
                 self.activeDom.dataset.symbol = modelRst.hit[1];
             }
 
-            modelRec = modelRst ? modelRst.ret : '';
+            var modelRecStr = modelRst ? modelRst.ret : '';
             console.log('modelRst', modelRst);
             // get style by model
-            var styles = require('./modeStyle.js');
-            var style = styles(modelRec) + self.editBoxConf.baseStyle;
+            // var styles = require('./modeStyle.js');
+            var style = styles(modelRecStr) + self.editBoxConf.baseStyle;
 
             // add Style
             self.activeDom.setAttribute('style', style);
-            self.activeDom.setAttribute('class', 'showdom ' + modelRec)
+            self.activeDom.setAttribute('class', 'showdom ' + modelRecStr)
         } else {
             var reg = new RegExp('^' + self.activeDom.dataset.symbol);
             if (reg.test(val)) {
@@ -93,12 +95,12 @@ Markless.prototype.initEvent = function () {
         self.activeDom.innerHTML = val;
         return false;
     })
-
 };
 
 Markless.prototype.focus = function () {
     var self = this;
     self.editBox.focus()
 };
+
 
 global.Markless = Markless;

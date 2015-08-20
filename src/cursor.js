@@ -18,4 +18,4 @@ var cursor = {
     }
 }
 
-module.exports = cursor;
+export default cursor;

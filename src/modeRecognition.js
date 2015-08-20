@@ -27,4 +27,5 @@ var Mode = {
         return ret;
     }
 }
-module.exports = Mode;
+
+export default Mode;

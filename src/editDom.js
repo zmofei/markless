@@ -14,4 +14,4 @@ var edit = {
     }
 }
 
-module.exports = edit;
+export default edit;
