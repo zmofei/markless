@@ -11,7 +11,7 @@ function Markless(id, opt) {
     this.initEvent();
 }
 
-Markless.prototype.initDome = function() {
+Markless.prototype.initDome = function () {
     var self = this;
 
     self.dom.style.overflow = 'auto';
@@ -24,22 +24,22 @@ Markless.prototype.initDome = function() {
     self.dom.appendChild(editBox);
 }
 
-Markless.prototype.initEvent = function() {
+Markless.prototype.initEvent = function () {
     var self = this;
 
     // click
-    self.dom.addEventListener('click', function(e) {
+    self.dom.addEventListener('click', function (e) {
         self.activeDom = cursor.getActiveDom.apply(self, arguments);
         self.focus();
     });
 
-    self.editBox.addEventListener('keyup', function(e) {
+    self.editBox.addEventListener('keyup', function (e) {
         console.log('???1', e.keyCode)
         var selfBox = this;
 
+        // parse enter
         if (e.keyCode === 13) {
             var pre = self.activeDom.previousSibling;
-
             var selfNull = self.activeDom.innerHTML.replace(/\&nbsp\;/g, '') == '';
             var preNull = self.activeDom.previousSibling ? (self.activeDom.previousSibling.innerHTML.replace(/\&nbsp\;/g, '') == '') : false;
             if (!(selfNull && preNull)) {
@@ -50,25 +50,26 @@ Markless.prototype.initEvent = function() {
             return false;
         }
 
-
         var val = selfBox.value;
         val = val.replace(/\n/g, '<br>');
         val = val.replace(/\s/g, '&nbsp;');
         console.log(val)
 
         var modelRec = require('./modeRecognition.js');
-
-        if (!self.activeDom.dataset.type) {
+        if (!self.activeDom.dataset.type || self.activeDom.dataset.type == 'text') {
             // get  model
             var modelRst = modelRec.judege(val);
-            if (modelRst && modelRst.ret == 'h') {
-                modelRst.ret += modelRst.hit[1].length;
+            if (modelRst) {
+                if (modelRst.ret == 'h') {
+                    modelRst.ret += modelRst.hit[1].length;
+                }
                 val = val.replace(modelRst.hit[1], '');
-                self.activeDom.dataset.type = modelRec;
+                self.activeDom.dataset.type = modelRst.ret;
                 self.activeDom.dataset.symbol = modelRst.hit[1];
             }
+
             modelRec = modelRst ? modelRst.ret : '';
-            console.log(modelRst);
+            console.log('modelRst', modelRst);
             // get style by model
             var styles = require('./modeStyle.js');
             var style = styles(modelRec) + self.editBoxConf.baseStyle;
@@ -83,7 +84,7 @@ Markless.prototype.initEvent = function() {
             } else {
                 val = self.activeDom.dataset.symbol;
                 selfBox.value = val;
-                delete self.activeDom.dataset.type;
+                self.activeDom.dataset.type = 'text';
                 delete self.activeDom.dataset.symbol;
                 self.activeDom.setAttribute('class', 'showdom');
                 self.activeDom.setAttribute('style', self.editBoxConf.baseStyle);
@@ -95,7 +96,7 @@ Markless.prototype.initEvent = function() {
 
 };
 
-Markless.prototype.focus = function() {
+Markless.prototype.focus = function () {
     var self = this;
     self.editBox.focus()
 };

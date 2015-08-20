@@ -1,10 +1,11 @@
 var edit = {
-    createDom: function() {
+    createDom: function () {
         var showBox = document.createElement('div');
         showBox.setAttribute('class', 'showdom');
+        showBox.dataset.type = 'text';
         return showBox;
     },
-    insert: function() {
+    insert: function () {
         var newDom = edit.createDom();
         var referenceNode = this.activeDom;
         referenceNode.parentNode.insertBefore(newDom, referenceNode.nextSibling);

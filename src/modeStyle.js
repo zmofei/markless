@@ -5,6 +5,7 @@ StyleConf = {
     'h4': 'font-size: 18px;',
     'h5': 'font-size: 16px;',
     'h6': 'font-size: 16px;',
+    'blockquotes' : 'padding: 10px 15px; border-left: 10px solid #D6DBDF;  margin: 0 0 20px; background:none repeat scroll 0 0 rgba(102,128,153,.05); color:rgb(44, 62, 80); min-height: 18px;'
 }
 
 function Style(mode) {
