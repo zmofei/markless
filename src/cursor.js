@@ -1,5 +1,5 @@
 var cursor = {
-    getActiveDom: function(e) {
+    getActiveDom: function (e) {
         var self = this;
         var left = e.offsetX;
         var top = e.offsetY;
