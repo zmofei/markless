@@ -2,6 +2,7 @@ var edit = {
     createDom: function () {
         var showBox = document.createElement('div');
         showBox.setAttribute('class', 'showdom');
+        showBox.dataset.line = 0;
         showBox.dataset.type = 'text';
         return showBox;
     },

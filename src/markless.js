@@ -36,26 +36,38 @@ Markless.prototype.initEvent = function () {
     });
 
     self.editBox.addEventListener('keyup', function (e) {
-        console.log('???1', e.keyCode)
+        // console.log('???1', e.keyCode)
         var selfBox = this;
+
+        var val = selfBox.value;
+
+        console.log('???+', val)
 
         // parse enter
         if (e.keyCode === 13) {
             var pre = self.activeDom.previousSibling;
+            // conside about the mutil-line,singleline,and empit line
+            var line = self.activeDom.dataset.line;
+            // if (line == 0) return false;
+            // console.log('@@@@@@', self.activeDom.dataset.line)
             var selfNull = self.activeDom.innerHTML.replace(/\&nbsp\;/g, '') == '';
             var preNull = self.activeDom.previousSibling ? (self.activeDom.previousSibling.innerHTML.replace(/\&nbsp\;/g, '') == '') : false;
-            if (!(selfNull && preNull)) {
+
+
+            var singleLine = line != 0;
+            var lineEnd = /\n\n$/.test(val);
+
+            console.log('@@@2', lineEnd);
+            if (singleLine || lineEnd) { // && !(selfNull && preNull && mutilLine)
                 edit.insert.apply(self);
-            } else {
                 selfBox.value = '';
+                return false;
             }
-            return false;
+
         }
 
-        var val = selfBox.value;
         val = val.replace(/\n/g, '<br>');
         val = val.replace(/\s/g, '&nbsp;');
-        console.log(val)
 
         // var modelRec = require('./modeRecognition.js');
         if (!self.activeDom.dataset.type || self.activeDom.dataset.type == 'text') {
@@ -67,6 +79,7 @@ Markless.prototype.initEvent = function () {
                 }
                 val = val.replace(modelRst.hit[1], '');
                 self.activeDom.dataset.type = modelRst.ret;
+                self.activeDom.dataset.line = modelRst.line;
                 self.activeDom.dataset.symbol = modelRst.hit[1];
             }
 

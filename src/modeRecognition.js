@@ -1,4 +1,13 @@
+/**
+ * this is the recognition modul fo every kind of mark
+ * @type {Object}
+ */
+
 var Mode = {
+    /**
+     * config
+     * @param {Number} line   0:multi-line,other:line number
+     */
     judegeReg: {
         '^(#{1,6})[^#]+': {
             name: 'h',
