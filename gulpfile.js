@@ -5,13 +5,14 @@ var uglify = require("gulp-uglify");
 var browserify = require('gulp-browserify');
 
 
-gulp.task('default', ['babel', 'browserify', ])
+gulp.task('default', ['babel', 'browserify'])
 
 gulp.task('babel', function () {
     return gulp.src('src/**/*.js')
         .pipe(babel())
         .pipe(gulp.dest("_temp"));
 });
+
 gulp.task('browserify', function () {
     return gulp.src('_temp/markless.js')
         .pipe(browserify({

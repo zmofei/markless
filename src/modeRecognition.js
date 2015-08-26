@@ -17,6 +17,10 @@ var Mode = {
             name: 'blockquotes',
             line: 0
         },
+        '^(\\*)[^\\*]+': {
+            name: 'ul',
+            line: 0
+        },
     },
     judege: function (val) {
         var reg = this.judegeReg;
