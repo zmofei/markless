@@ -21,6 +21,10 @@ var Mode = {
             name: 'ul',
             line: 0
         },
+        '^(1\\.)[^\\d]+': {
+            name: 'ol',
+            line: 0
+        },
     },
     judege: function (val) {
         var reg = this.judegeReg;
