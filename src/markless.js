@@ -1,7 +1,6 @@
 import cursor from './cursor.js';
 import edit from './editDom.js';
 import modelRec from './modeRecognition.js';
-import styles from './modeStyle.js';
 import keyEvent from './keyEvent.js';
 import valueFormat from './valueFormat.js';
 
@@ -39,33 +38,19 @@ Markless.prototype.initEvent = function () {
 
     self.editBox.addEventListener('keyup', function (e) {
         // listen to key
-        keyEvent.dispatch(e.keyCode, this, self);
-
-        // get  model
-        var val = this.value;
-        console.log('what', val + '!!!');
-        var type = self.activeDom.dataset.type;
-        var modelRst = modelRec.judege(val);
-        if (modelRst) {
-            if (modelRst.ret == 'h') {
-                modelRst.ret += modelRst.hit[1].length;
-            } else if (modelRst.ret == 'ul') {
-                modelRst.hit[1] = '\\' + modelRst.hit[1];
-            }
-            type = modelRst.ret;
-            self.activeDom.dataset.type = type;
-            self.activeDom.dataset.line = modelRst.line;
-            self.activeDom.dataset.symbol = modelRst.hit[1];
-            // add Style
-            var style = styles(type) + self.editBoxConf.baseStyle;
-            self.activeDom.setAttribute('style', style);
-            self.activeDom.setAttribute('class', 'showdom ' + type)
-        }
+        keyEvent.dispatch(e, this, self);
+        // set  mo
+        var modelRst = modelRec.judege(this.value, self);
         // format value
-        val = valueFormat.call(self, val);
+        var val = valueFormat.call(self, this.value);
         // insert html
         self.activeDom.innerHTML = val;
         return false;
+    });
+
+    // key down for edlete
+    self.editBox.addEventListener('keydown', function (e) {
+        keyEvent.dispatch(e, this, self);
     })
 };
 

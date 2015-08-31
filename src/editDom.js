@@ -12,6 +12,16 @@ var edit = {
         referenceNode.parentNode.insertBefore(newDom, referenceNode.nextSibling);
         this.activeDom = newDom;
         this.editBox.value = '';
+    },
+    remove: function () {
+        var referenceNode = this.activeDom;
+        var prever = referenceNode.previousElementSibling;
+        if (prever) {
+            referenceNode.remove();
+            this.activeDom = prever;
+            // todo add the value to textarea
+            this.editBox.value = '????';
+        }
     }
 }
 

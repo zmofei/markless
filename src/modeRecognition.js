@@ -3,6 +3,8 @@
  * @type {Object}
  */
 
+import styles from './modeStyle.js';
+
 var Mode = {
     /**
      * config
@@ -26,7 +28,7 @@ var Mode = {
             line: 0
         },
     },
-    judege: function (val) {
+    judege: function (val, markless) {
         var reg = this.judegeReg;
         var ret = null;
         for (var i in reg) {
@@ -41,7 +43,28 @@ var Mode = {
                 break;
             }
         }
-        return ret;
+
+        // deal with dom
+        if (ret) {
+            if (ret.ret == 'h') {
+                ret.ret += ret.hit[1].length;
+            } else if (ret.ret == 'ul') {
+                ret.hit[1] = '\\' + ret.hit[1];
+            }
+            var type = ret.ret;
+            markless.activeDom.dataset.type = type;
+            markless.activeDom.dataset.line = ret.line;
+            markless.activeDom.dataset.symbol = ret.hit[1];
+            // add Style
+            var style = styles(type) + markless.editBoxConf.baseStyle;
+            markless.activeDom.setAttribute('style', style);
+            markless.activeDom.setAttribute('class', 'showdom ' + type)
+        } else {
+            markless.activeDom.dataset.type = 'text';
+            delete markless.activeDom.dataset.symbol;
+            markless.activeDom.setAttribute('class', 'showdom');
+            markless.activeDom.setAttribute('style', markless.editBoxConf.baseStyle);
+        }
     }
 }
 

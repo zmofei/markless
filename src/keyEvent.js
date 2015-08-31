@@ -2,13 +2,20 @@ import edit from './editDom.js';
 import valueFormat from './valueFormat.js';
 
 var keyEvent = {
-    'dispatch': function (keyCode, editbox, markless) {
-        if (keyCode === 8) {
-            keyEvent.delete(editbox, markless);
+    'dispatch': function (e, editbox, markless) {
+        if (e.type == 'keyup') {
+            // keyup events
+            if (e.keyCode === 13) {
+                keyEvent.enter(editbox, markless);
+            }
+        } else if (e.type == 'keydown') {
+            // keydown events
+            if (e.keyCode === 8) {
+                keyEvent.delete(editbox, markless);
+            }
         }
-        if (keyCode === 13) {
-            keyEvent.enter(editbox, markless);
-        }
+
+
     },
     'enter': function (editbox, markless) {
         var pre = markless.activeDom.previousSibling;
@@ -27,15 +34,10 @@ var keyEvent = {
     },
     'delete': function (editbox, markless) {
         var val = editbox.value;
-        var reg = new RegExp('^' + markless.activeDom.dataset.symbol + '$');
-        if (reg.test(val)) {
-            val = markless.activeDom.dataset.symbol.replace('\\', '');
-            editbox.value = val;
-            markless.activeDom.dataset.type = 'text';
-            delete markless.activeDom.dataset.symbol;
-            markless.activeDom.setAttribute('class', 'showdom');
-            markless.activeDom.setAttribute('style', markless.editBoxConf.baseStyle);
+        if (val == '') {
+            edit.remove.call(markless);
         }
+        console.log('delete', val, val == '');
     }
 }
 
