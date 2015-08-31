@@ -29,7 +29,8 @@ var valueFormat = {
         val = val.replace(/\s/g, '&nbsp;');
         return val;
     },
-    'dispatch': function (val, type) {
+    'dispatch': function (val) {
+        var type = this.activeDom.dataset.type;
         // do main format
         var mainFormat = valueFormat[type] || valueFormat['default'];
         var mainResult = mainFormat.call(this, val);

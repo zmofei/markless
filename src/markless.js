@@ -40,8 +40,10 @@ Markless.prototype.initEvent = function () {
     self.editBox.addEventListener('keyup', function (e) {
         // listen to key
         keyEvent.dispatch(e.keyCode, this, self);
+
         // get  model
         var val = this.value;
+        console.log('what', val + '!!!');
         var type = self.activeDom.dataset.type;
         var modelRst = modelRec.judege(val);
         if (modelRst) {
@@ -60,7 +62,7 @@ Markless.prototype.initEvent = function () {
             self.activeDom.setAttribute('class', 'showdom ' + type)
         }
         // format value
-        val = valueFormat.call(self, val, type);
+        val = valueFormat.call(self, val);
         // insert html
         self.activeDom.innerHTML = val;
         return false;

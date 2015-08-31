@@ -1,4 +1,5 @@
 import edit from './editDom.js';
+import valueFormat from './valueFormat.js';
 
 var keyEvent = {
     'dispatch': function (keyCode, editbox, markless) {
@@ -16,6 +17,10 @@ var keyEvent = {
         var singleLine = line != 0;
         var lineEnd = /\n\n$/.test(val);
         if (singleLine || lineEnd) {
+            // format value // insert html
+            val = valueFormat.call(markless, val.replace(/\n+$/, ''));
+            markless.activeDom.innerHTML = val;
+            //
             edit.insert.apply(markless);
             editbox.value = '';
         }
