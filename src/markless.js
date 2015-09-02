@@ -6,7 +6,7 @@ import valueFormat from './valueFormat.js';
 
 function Markless(id, opt) {
     this.editBoxConf = {
-        baseStyle: '; outline : none; '
+        baseStyle: '; outline : none; position:relative;'
     }
     this.activeDom = null;
     this.dom = document.getElementById(id);
@@ -25,6 +25,9 @@ Markless.prototype.initDome = function () {
     var editBox = self.editBox = document.createElement('textarea');
     editBox.setAttribute('style', 'position:absolute; bottom:10px; right:10px;');
     self.dom.appendChild(editBox);
+
+    // init cursor
+    cursor.addCursor();
 }
 
 Markless.prototype.initEvent = function () {
@@ -33,18 +36,20 @@ Markless.prototype.initEvent = function () {
     // click
     self.dom.addEventListener('click', function (e) {
         self.activeDom = cursor.getActiveDom.apply(self, arguments);
+        // append cursor
+        self.activeDom.appendChild(cursor.getCursor());
         self.focus();
     });
 
     self.editBox.addEventListener('keyup', function (e) {
         // listen to key
         keyEvent.dispatch(e, this, self);
-        // set  mo
+        // set  mode
         var modelRst = modelRec.judege(this.value, self);
         // format value
         var val = valueFormat.call(self, this.value);
         // insert html
-        self.activeDom.innerHTML = val;
+        self.activeDom.querySelector('.html').innerHTML = val;
         return false;
     });
 

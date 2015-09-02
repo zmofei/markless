@@ -37,7 +37,7 @@ var keyEvent = {
         if (singleLine || lineEnd) {
             // format value // insert html
             val = valueFormat.call(markless, val.replace(/\n+$/, ''));
-            markless.activeDom.innerHTML = val;
+            markless.activeDom.querySelector('.html').innerHTML = val;
             //
             edit.insert.apply(markless);
             editbox.value = '';

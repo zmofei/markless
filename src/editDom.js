@@ -1,15 +1,23 @@
 import dataBank from './data.js';
+import cursor from './cursor.js';
 
 var edit = {
     domCount: 0,
     createDom: function () {
-        console.log('???d')
         var id = (this.domCount++).toString() + '_' + (+new Date()).toString(36);
         var showBox = document.createElement('div');
         showBox.setAttribute('class', 'showdom');
         showBox.setAttribute('id', id);
+        showBox.style.minHeight = '18px';
+        showBox.style.position = 'relative';
         showBox.dataset.line = 0;
         showBox.dataset.type = 'text';
+        var html = document.createElement('div');
+        html.setAttribute('class', 'html');
+        showBox.appendChild(html);
+        if (cursor.getCursor()) {
+            showBox.appendChild(cursor.getCursor());
+        }
         return showBox;
     },
     insert: function () {
