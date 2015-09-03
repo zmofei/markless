@@ -11,7 +11,6 @@ var Data = {
         } else {
             this.bank[name] = val;
         }
-        console.log('@@@', this.bank.markData);
     },
     delete: function (name) {
         delete this.bank[name];

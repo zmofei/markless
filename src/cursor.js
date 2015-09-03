@@ -1,3 +1,5 @@
+import range from './selectRange.js';
+
 var cursor = {
     cursor: null,
     getActiveDom: function (e) {
@@ -19,7 +21,7 @@ var cursor = {
     },
     addCursor: function () {
         var cursor = this.cursor = document.createElement('span');
-        cursor.style.height = '24px';
+        cursor.style.height = '1em';
         cursor.style.position = 'absolute';
         cursor.style.left = 0;
         cursor.style.top = 0;
@@ -37,11 +39,43 @@ var cursor = {
         }, 500)
     },
     setCursor: function (x, y) {
-        this.cursor.style.left = parseInt(x) + 'px';
-        this.cursor.style.top = parseInt(y) + 'px';
+        if (x || y) {
+            this.cursor.style.left = parseInt(x) + 'px';
+            this.cursor.style.top = parseInt(y) + 'px';
+        }
     },
     getCursor: function () {
         return this.cursor;
+    },
+    autoCursor: function (textarea, markless) {
+        var start = textarea.selectionStart;
+        var end = textarea.selectionEnd;
+        var dom = markless.activeDom.querySelector('.html');
+        var oldHTML = dom.innerHTML;
+        dom.innerHTML = oldHTML + '&nbsp;';
+        range.set(dom, {
+            start: start,
+            end: end + 1
+        });
+
+        var pos = range.getPos();
+        textarea.setSelectionRange(start, end);
+
+        var element = dom;
+        var domTop = 0;
+        var domLeft = 0;
+        do {
+            domTop += element.offsetTop || 0;
+            domLeft += element.offsetLeft || 0;
+            element = element.offsetParent;
+        } while (element);
+
+        var left = pos.x ? pos.x - domLeft : 0;
+        var top = pos.y ? pos.y - domTop : 0;
+        console.log(top)
+        this.cursor.style.left = left + 'px';
+        this.cursor.style.top = top + 'px';
+        dom.innerHTML = oldHTML;
     }
 }
 

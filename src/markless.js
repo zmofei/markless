@@ -50,6 +50,8 @@ Markless.prototype.initEvent = function () {
         var val = valueFormat.call(self, this.value);
         // insert html
         self.activeDom.querySelector('.html').innerHTML = val;
+        // deal withe cursor
+        cursor.autoCursor(this, self);
         return false;
     });
 
