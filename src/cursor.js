@@ -53,6 +53,7 @@ var cursor = {
         var dom = markless.activeDom.querySelector('.html');
         var oldHTML = dom.innerHTML;
         dom.innerHTML = oldHTML + '&nbsp;';
+        // todo Fix the start with out the tag like **x** `x` \n nbsp;
         range.set(dom, {
             start: start,
             end: end + 1
@@ -72,7 +73,6 @@ var cursor = {
 
         var left = pos.x ? pos.x - domLeft : 0;
         var top = pos.y ? pos.y - domTop : 0;
-        console.log(top)
         this.cursor.style.left = left + 'px';
         this.cursor.style.top = top + 'px';
         dom.innerHTML = oldHTML;
