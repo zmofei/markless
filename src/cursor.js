@@ -53,10 +53,25 @@ var cursor = {
         var dom = markless.activeDom.querySelector('.html');
         var oldHTML = dom.innerHTML;
         dom.innerHTML = oldHTML + '&nbsp;';
-        // todo Fix the start with out the tag like **x** `x` \n nbsp;
+        // conputer the reall star and end
+        // [todo-done] Fix the start with out the tag like **x** `x` \n nbsp;
+        var strBeforeCursor = textarea.value.substring(0, start);
+        var strShow = dom.textContent;
+        var subIndex = 0;
+        var subChar = strShow.charAt(subIndex);
+        for (var i = 0; i < start; i++) {
+            var theChar = strBeforeCursor.charAt(i);
+            if (theChar == subChar) {
+                subIndex++;
+                subChar = strShow.charAt(subIndex);
+            }
+        }
+        var useStar = subIndex;
+        var useEnd = end - (start - subIndex) + 1;
+        //
         range.set(dom, {
-            start: start,
-            end: end + 1
+            start: useStar,
+            end: useEnd
         });
 
         var pos = range.getPos();
